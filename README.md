@@ -1,3 +1,3 @@
 # ITESAFIT
-Demo: https://itesafit.netlify.app/
+Demo: https://itfit.netlify.app/
 
