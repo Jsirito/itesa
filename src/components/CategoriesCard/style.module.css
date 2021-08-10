@@ -1,6 +1,6 @@
 .card {
   text-align: center;
-  aspect-ratio: 1/1;
+  /* aspect-ratio: 1/1;  dosn't work on safari */
 }
 
 .card div {

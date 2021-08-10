@@ -1,0 +1,147 @@
+<html>
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@0.4.2/dist/mindar.prod.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-firestore.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+    rel="stylesheet"
+  />
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const userId = window.location.hash.split("id:")[1]
+
+      const getProducts = async () => {
+        let productos = await db.collection("productosParaEscanear").get();
+        return productos.docs.map((producto) => producto.data());
+      };
+
+      getProducts().then((data) => {
+        data.forEach(productoSingular => {
+          // detect target found
+          const target = document.getElementById(productoSingular.name);
+          target.addEventListener("targetFound", event => {
+            db.collection("users")
+              .doc(userId)
+              .get()
+              .then((res) => {
+                return res.data();
+              })
+              .then((data) => {
+                let arr = data.productosYaEscaneados.split(",")
+                let puntos = data.points + productoSingular.points
+                let p = document.getElementById("encontrar")
+                if (arr.includes(productoSingular.name)) {
+                  puntos = 0
+                  p.textContent = `Este producto ${productoSingular.name} ya fue escaneado , proba con otro!`
+                } else {
+                  arr.push(productoSingular.name)
+                  let productos = arr.toString()
+                  p.textContent = `El producto que escaneaste es ${event.target.id} y los puntos son: ${productoSingular.points}` 
+                  db.collection("users").doc(userId).update({
+                    productosYaEscaneados: productos,
+                    points: puntos
+                  })
+                }
+              })
+              .catch((err) => console.log(err))
+          });
+        });
+
+      })
+
+    });
+  </script>
+  <style>
+    #header {
+      font-family: "Poppins", sans-serif;
+      align-items: center;
+      background-color: rgb(110 138 250 / 0.85);
+      color: white;
+      text-align: center;
+      border-radius: 0px 0px 10px 10px;
+      box-shadow: 0px 5px 5px rgba(0 0 0/0.3);
+      display: grid;
+      grid-template-columns: max-content 1fr;
+      grid-template-rows: max-content;
+      padding: 10px;
+      height: 80px;
+    }
+
+    #menu {
+      z-index: 99999;
+      padding: 20px;
+    }
+
+    #header svg {
+      width: 28px;
+      height: 32px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="header">
+    <div id="menu">
+
+      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="bars"
+        class="svg-inline--fa fa-bars fa-w-14 styles_icon__2JMCi" role="img" xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 448 512">
+        <path fill="currentColor"
+          d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z">
+        </path>
+      </svg>
+    </div>
+    <p id ="encontrar" style="color: white;">¡Escanea un Producto Para Sumar Puntos!</p>
+  </div>
+
+  <a-scene mindar="imageTargetSrc: /mindar/productos3.mind; showStats: false;" color-space="sRGB"
+    renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false"
+    device-orientation-permission-ui="enabled: false">
+    <a-assets>
+      <a-asset-item id="avatarModel" src="/itesa3.gltf"></a-asset-item>
+    </a-assets>
+
+    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+
+    <a-entity id="gatorade" mindar-image-target="targetIndex: 0">
+      <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.003 0.003 0.003" src="#avatarModel"
+        animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
+    </a-entity>
+    <a-entity id="cocacola" mindar-image-target="targetIndex: 1">
+      <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.003 0.003 0.003" src="#avatarModel"
+        animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
+    </a-entity>
+    <a-entity id="agua" mindar-image-target="targetIndex: 2">
+      <a-gltf-model rotation="0 0 0 " position="0 0 0.1" scale="0.003 0.003 0.003" src="#avatarModel"
+        animation="property: position; to: 0 0.1 0.1; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate">
+    </a-entity>
+  </a-scene>
+  <script>
+
+    // Your web app's Firebase configuration
+    var firebaseConfig = {
+      apiKey: "AIzaSyBWn9kzojV6c3K18CS8aFLboteECg1njXU",
+      authDomain: "itesa-p5.firebaseapp.com",
+      projectId: "itesa-p5",
+      storageBucket: "itesa-p5.appspot.com",
+      messagingSenderId: "159222681310",
+      appId: "1:159222681310:web:31146d63cfc48d0df97c4f"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+  </script>
+  <script>
+    document.querySelector("#menu").onclick = () => { parent.postMessage("menu", "*") }
+  </script>
+</body>
+
+</html>

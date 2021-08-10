@@ -1,16 +1,18 @@
+import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+
+import { userState } from "../../views/Home";
 import BurgerMenu from "../BurgerMenu";
 import S from "./styles.module.css";
-import { Link } from "react-router-dom";
 
 const Header = () => {
+  const user = useRecoilValue(userState);
+
   return (
     <div className={S.header}>
       <BurgerMenu />
       <Link to="/perfil">
-        <div
-          className={S.avatar}
-          style={{ backgroundImage: `url('/avatar.bmp')` }}
-        />
+        <div className={S.avatar} style={{ backgroundImage: `url('${user.avatar}')` }} />
       </Link>
     </div>
   );

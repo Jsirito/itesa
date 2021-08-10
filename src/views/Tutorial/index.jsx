@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilValue } from "recoil";
 
-import { currentExerciseState } from "../Categories";
+import { currentExerciseState } from "../../data/currentExercise";
 import S from "./styles.module.css";
 import Menu from "../../components/Menu";
 import Header from "../../components/Header";

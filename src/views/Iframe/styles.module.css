@@ -1,0 +1,15 @@
+.iframe {
+  height: 100vh;
+  width: 100vw;
+  border: none;
+}
+
+.container {
+  padding: 20px;
+  padding-top: 45px;
+  position: absolute;
+}
+
+.container svg {
+  color: white;
+}

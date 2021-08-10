@@ -5,6 +5,7 @@ import { AuthContext } from "../../../Auth";
 import S from "../styles.module.css";
 
 const LogIn = () => {
+  const [message, setMessage] = useState("");
   let [form, setForm] = useState({
     email: "",
     password: "",
@@ -25,12 +26,23 @@ const LogIn = () => {
       .auth()
       .signInWithEmailAndPassword(form.email, form.password)
       .then((data) => {
-        alert(`Bienvenido ${data.user.displayName}!`);
+        setMessage(`Bienvenido ${data.user.displayName}!`);
+        // alert(`Bienvenido ${data.user.displayName}!`);
         history.push("/");
       })
       .catch((res) => {
         console.error(res);
-        alert(res.message);
+        console.log(res);
+        switch (res.code.split("/")[1]) {
+          case "invalid-email":
+            setMessage("Email o contraseña incorrectos");
+            break;
+          case "wrong-password":
+            setMessage("Email o contraseña incorrectos");
+            break;
+          default:
+            setMessage("Ocurrio un error, por favor intentar nuevamente");
+        }
       });
   };
 
@@ -45,22 +57,17 @@ const LogIn = () => {
         <h1>INICIA SESIÓN</h1>
       </div>
       <form onSubmit={formSubmit}>
-        <input
-          name="email"
-          type="email"
-          placeholder="EMAIL"
-          onChange={inputChange}
-        />
+        {message && <div>{message}</div>}
+        <input name="email" placeholder="EMAIL" onChange={inputChange} />
         <input
           name="password"
           type="password"
           placeholder="CONTRASEÑA"
-          required
           onChange={inputChange}
         />
         <div>
           ¿Has olvidado tu contraseña?
-          <a href="#">Recuperar</a>
+          <a href="/">Recuperar</a>
         </div>
         <input type="submit" value="INGRESAR" />
         <div>

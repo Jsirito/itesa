@@ -4,7 +4,8 @@
   background: var(--menu-bg);
   color: var(--menu-cl);
   text-align: center;
-  z-index: 10;
+  z-index: 999;
+  height: 100vh;
 }
 
 .menu_container {

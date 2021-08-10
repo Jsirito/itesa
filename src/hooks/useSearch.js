@@ -12,17 +12,23 @@ const useSearch = () => {
 
   useEffect(() => {
     getExercises().then((exercises) => setExercises(exercises));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const searchExercises = (e) => {
     if (e.key === "Enter") {
       setSearching(true);
-      const found_exercise = exercises.find((exercise) => {
-        return exercise.name.toLowerCase().includes(query.toLocaleLowerCase());
-      });
-      if (found_exercise) setFound(found_exercise);
-      else setMessage("No se encontro ningun ejercicio");
-      setQuery("");
+      if (query === "") {
+        setMessage("No se encontro ningun ejercicio");
+      } else {
+        const found_exercise = exercises.find((exercise) => {
+          return exercise.name.toLowerCase().includes(query.toLocaleLowerCase());
+        });
+
+        if (found_exercise) setFound(found_exercise);
+        else setMessage("No se encontro ningun ejercicio");
+        setQuery("");
+      }
     }
   };
 
@@ -34,6 +40,7 @@ const useSearch = () => {
   return {
     query,
     searching,
+    setSearching,
     found,
     searchExercises,
     onChange,

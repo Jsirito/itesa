@@ -1,65 +1,85 @@
-.grid_wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 0.5fr 1.5fr;
-  gap: 0px 0px;
-  grid-auto-flow: row;
-  grid-template-areas:
-    "avatar_container name_container"
-    "info_container info_container";
+.menu {
+  padding: 1em;
 }
 
 .avatar_container {
-  grid-area: avatar_container;
-  display: flex;
+  /* display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 1rem;
+  align-items: center; */
 }
 
 .avatar {
-  width: 100px;
-  height: 100px;
+  margin: 0 auto;
+  width: 6rem;
+  height: 6rem;
   background-size: cover;
   border-radius: 100px;
-  border: 1px solid grey;
+  border: 3px solid var(--main-menu);
 }
 
-.small_text {
-  font-size: small;
-  margin: 0.5rem;
-}
-
-.name_container {
-  grid-area: name_container;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  padding-left: 5rem;
-  background-color: var(--menu-bg);
-}
-
-.name {
-  font-size: 2rem;
-  color: var(--menu-cl);
+.displayName {
+  margin-top: 0.5em;
+  text-align: center;
+  color: var(--main-menu);
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 .email {
-  color: var(--menu-cl);
+  text-align: center;
+  color: var(--main-menu);
+  font-size: 0.8rem;
 }
 
-.info_container {
-  grid-area: info_container;
-  margin: auto;
+.stats {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2em;
+  padding-bottom: 5px;
+  background: linear-gradient(0deg, rgba(245,245,245,1) 0%, rgba(255,255,255,1) 100%);
+  border-radius: 0 0 10px 10px;
+  box-shadow: 0 5px 3px rgba(0 0 0 / .1);
+  z-index: 5;
 }
 
-.button {
-  margin: 2% 4%;
-  padding: 4%;
-  background: var(--auth-bg);
-  color: var(--auth-cl);
-  border: 1px solid var(--auth-cl);
-  -webkit-appearance: none;
-  border-radius: 0;
+.box {
+  text-align: center;
+}
+
+.title {
+  font-weight: bold;
+  color: var(--main-menu);
+}
+
+.point_container{
+  background-color: #e881ff;
+}
+
+.container {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: max-content max-content max-content 1fr;
+}
+
+.tabs {
+  background:#e7e7e7;
+  background: linear-gradient(0deg, rgba(245,245,245,1) 0%, #e7e7e7 100%);
+  margin-top: -20px;
+  padding: 10px;
+  padding-top: 30px;
+  bottom:0;
+  overflow-y: scroll;
+}
+
+.tabs ul li {
+  margin-top: 5px;
+  border-bottom: 1px solid rgba(0 0 0 / .2);
+  padding: 20px;
+}
+
+.tabs ul span {
+  font-size: .8em;
+  opacity: .9;
+  float:right;
+  line-height: 2em;
 }

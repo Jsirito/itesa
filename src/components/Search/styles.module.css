@@ -12,7 +12,7 @@
   background: var(--main-input-bg);
   color: var(--main-input-cl);
   border: none;
-  max-width: 90%;
+  max-width: 80vw;
   font-size: 1.2em;
 }
 

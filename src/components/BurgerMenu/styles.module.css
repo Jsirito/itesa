@@ -1,5 +1,6 @@
 .icon {
   color: var(--main-menu);
+  z-index: 99999;
   font-size: 2em;
 }
 
